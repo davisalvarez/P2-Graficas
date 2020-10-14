@@ -10,8 +10,8 @@ from ModeloOBJ import *
 from shader import *
 from Esfera import *
 
-ancho = 256
-alto = 256
+ancho = 2048
+alto = 1024
 
 img = render(ancho, alto)
 
@@ -20,61 +20,67 @@ img.glClearColor(0.5,1,0.36)
 #img.glViewport(200,100,600,300)
 img.glClear()
 
-brick = Material(diffuse = color(0.8, 0.25, 0.25 ), spec = 16)
-stone = Material(diffuse = color(0.4, 0.4, 0.4 ), spec = 32)
-mirror = Material(diffuse = color(0.8,0.8,0.8), spec = 1024, matType = REFLECTIVE)
+espejoR = Material(diffuse = color(0.8,0,0), spec = 1024, matType = REFLECTIVE)
+espejo = Material(diffuse = color(0.8,0.9,1), spec = 1024, matType = REFLECTIVE)
+#glass = Material( spec = 1024, ior = 1.5, matType = TRANSPARENT)
 
-glass = Material( spec = 1024, ior = 1.5, matType = TRANSPARENT)
+#_________________________________________________________________________________
+#Namek suns
 
-img.pointLight = PointLight(position = (-4,4,0), intensity = 1)
-img.ambientLight = AmbientLight(strength = 0.1)
+img.pointLights.append(PointLight(position = (-4,-5,0), intensity = 0.4))
+img.pointLights.append(PointLight(position = (2,3,0), intensity = 0.3))
+img.dirLight = DirectionalLight(direction = (0, -2, -1), intensity = 0.2)
+img.ambientLight = AmbientLight(strength = 0.2)
 
-img.envmap = Envmap('envmap.bmp')
+img.envmap = Envmap('textures/db3.bmp')
 
-img.scene.append( Esfera(( 1, 1, -8), 1.5, brick) )
-img.scene.append( Esfera(( 0, 0, -5), 0.5, glass) )
-img.scene.append( Esfera((-3, 3, -10),  2, mirror) )
-img.scene.append( Esfera((-3, -1.5, -10), 1.5, mirror) )
+#_________________________________________________________________________________
+#Dragon Balls
+
+ballMat1 = Material(texture = Texture('textures/ball1.bmp'))
+ballMat2 = Material(texture = Texture('textures/ball2.bmp'))
+ballMat3 = Material(texture = Texture('textures/ball3.bmp'))
+ballMat4 = Material(texture = Texture('textures/ball4.bmp'))
+ballMat5 = Material(texture = Texture('textures/ball5.bmp'))
+ballMat6 = Material(texture = Texture('textures/ball6.bmp'))
+ballMat7 = Material(texture = Texture('textures/ball7.bmp'))
+
+img.scene.append( Esfera(( -13, -4, -17), 1.5, ballMat1) )
+img.scene.append( Esfera(( -8, -4, -17), 1.5, ballMat5) )
+img.scene.append( Esfera(( -11, -1, -18), 1.5, ballMat7) )
+img.scene.append( Esfera(( -15, -0.5, -18), 1.5, ballMat3) )
+img.scene.append( Esfera(( -7, -0.5, -18), 1.5, ballMat2) )
+img.scene.append( Esfera(( -11, 2.5, -18), 1.5, ballMat6) )
+
+img.scene.append( Esfera(( 0, -4.5, -16), 1.5, ballMat4) )
+#_________________________________________________________________________________
+#Kakarot's Box
+
+img.scene.append( AABBX((-10, -6, -20), (10, 0.5, 10) , espejo ) )
+img.scene.append( AABBX((-15, -4.5, -20), (0.5, 3, 10) , espejoR ) )
+img.scene.append( AABBX((-5, -4.5, -20), (0.5, 3, 10) , espejoR ) )
+img.scene.append( AABBX((-10, -4.5, -25), (10, 3, 0.5) , espejoR ) )
+img.scene.append( AABBX((-10, -5, -15), (10, 1.5, 0.5) , espejoR ) )
+
+#_________________________________________________________________________________
+#Arch
+
+RedWoodMat = Material(texture = Texture('textures/redWood.bmp'))
+
+img.scene.append( AABBX((10, 0, -50), (3, 40, 3) , RedWoodMat ) ) #Poste
+img.scene.append( AABBX((40, 0, -50), (3, 40, 3) , RedWoodMat ) ) #Poste
+img.scene.append( AABBX((25, 12, -50), (45, 3, 3) , RedWoodMat ) ) #Base Pequeña
+img.scene.append( AABBX((25, 18, -50), (55, 3, 3) , RedWoodMat ) )   #Base Grande
+img.scene.append( AABBX((25, 16, -50), (3, 5, 3) , RedWoodMat ) ) #Poste
+
+
+img.scene.append( Esfera((25, 23.5, -50), 3.5, espejo) ) #bombilla Grande
+img.scene.append( Esfera((4, 8.5, -50), 2, espejo) ) #bombilla pequeña
+img.scene.append( Esfera((46, 8.5, -50), 2, espejo) ) #bombilla pequeña
+
+#_________________________________________________________________________________
 
 img.mcqueenRender()
-
-
-"""
-#______________________________
-
-nieve = Material(diffuse=color(1, 1, 1), spec = 256)
-wakanda = Material(diffuse=color(0, 0, 0))
-botones = Material(diffuse=color(0.55, 0.26, 0.67), spec = 8)
-zanahoria = Material(diffuse=color(1, 0.26, 0))
-cielo = Material(diffuse=color(0.53,0.81,0.92), spec = 64)
-
-img.pointLight = PointLight(position = (5,1,0), intensity = 1)
-img.ambientLight = AmbientLight(strength = 0.3)
-
-#Cuerpo
-img.scene.append(Esfera((0, 10, -30), 4, nieve))
-img.scene.append(Esfera((0, 2, -30), 5, nieve))
-img.scene.append(Esfera((0, -8, -30), 7, nieve))
-
-#Cara
-img.scene.append(Esfera((1, 7.7, -25), 0.6, zanahoria))
-img.scene.append(Esfera((-1.4, 9.6, -25), 0.7, cielo))
-img.scene.append(Esfera((1.4, 9.6, -25), 0.7, cielo))
-
-#boca
-img.scene.append(Esfera((-1.8, 7.7, -27), 0.3, wakanda))
-img.scene.append(Esfera((-1, 7.3, -27), 0.3, wakanda))
-img.scene.append(Esfera((0, 6.8, -27), 0.3, wakanda)) #Centro
-img.scene.append(Esfera((1.8, 7.7, -27), 0.3, wakanda))
-img.scene.append(Esfera((1, 7.3, -27), 0.3, wakanda))
-
-#Botones
-img.scene.append(Esfera((0, 1.5, -25), 1, botones))
-img.scene.append(Esfera((0, -1.8, -25), 1.2, botones))
-img.scene.append(Esfera((0, -7, -25), 2.3, botones))
-"""
-
-
 
 img.glFinish() #5
 

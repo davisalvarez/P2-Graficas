@@ -89,16 +89,20 @@ def myMultiplyExV(escalar, vector):
     return mult
 
 #Normalizar vector:
-def normalizarVector(vector):
+def normalizarVector(var):
     try:
         #largo del vector
-        #print('vector '+str(vector))
+        vector = [var[0],
+                  var[1],
+                  var[2]]
+
         largo =  (vector[0]**2 + vector[1]**2 + vector[2]**2)**0.5
-        vector[0] = vector[0]/ largo
+        vector[0] = vector[0] / largo
+        #print('vector '+str(largo))
         vector[1] = vector[1] / largo
         vector[2] = vector[2] / largo
     except ZeroDivisionError:
-        #print("Cero!!!!!!!!!!")
+        print("Cero!!!!!!!!!!")
         return (0,0,0)
     return  vector
 
