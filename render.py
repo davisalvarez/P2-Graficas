@@ -411,13 +411,13 @@ class render(object):
 
 
             diffuseSpec = myAdd(diffuseColor, specColor)
-            ambientShadow = myAdd(ambientColor, [1 - shadow_intensity,
+            ambientShadow = myMultiply(ambientColor, [1 - shadow_intensity,
                                                  1 - shadow_intensity,
                                                  1 - shadow_intensity])
 
-            temp = myMultiply(diffuseSpec, ambientShadow)
+            #temp = myMultiply(diffuseSpec, ambientShadow)
 
-            pLightColor = myAdd(pLightColor, temp)
+            pLightColor = myAdd(pLightColor, ambientShadow)
 
         # Formula de iluminacion
         #finalColor = (ambientColor + (1 - shadow_intensity) * (diffuseColor + specColor)) * objectColor
