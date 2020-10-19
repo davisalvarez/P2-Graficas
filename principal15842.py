@@ -10,8 +10,8 @@ from ModeloOBJ import *
 from shader import *
 from Esfera import *
 
-ancho = 2048
-alto = 1024
+ancho = 1024
+alto = 512
 
 img = render(ancho, alto)
 
@@ -28,7 +28,7 @@ espejo = Material(diffuse = color(0.8,0.9,1), spec = 1024, matType = REFLECTIVE)
 #Namek suns
 
 img.pointLights.append(PointLight(position = (-4,-5,0), intensity = 0.4))
-img.pointLights.append(PointLight(position = (2,3,0), intensity = 0.3))
+img.pointLights.append(PointLight(position = (2,3,0), intensity = 0.6))
 img.dirLight = DirectionalLight(direction = (0, -2, -1), intensity = 0.2)
 img.ambientLight = AmbientLight(strength = 0.2)
 
