@@ -335,11 +335,10 @@ class render(object):
                                      self.ambientLight.strength * self.ambientLight.color[0] / 255]
 
         if self.dirLight:
-            diffuseColor = np.array([0, 0, 0])
-            specColor = np.array([0, 0, 0])
+            diffuseColor = [0, 0, 0]
+            specColor = [0, 0, 0]
             shadow_intensity = 0
 
-            #light_dir = np.array(self.dirLight.direction) * -1
             light_dir = myMultiplyExV(-1, self.dirLight.direction)
 
             # Calculamos el valor del diffuse color
@@ -435,7 +434,6 @@ class render(object):
                                 finalColor[0] * texColor[0] / 255]
 
         elif material.matType == REFLECTIVE:
-            #reflect = self.reflectVector(intersect.normal, np.array(direction) * -1)
             reflect = self.reflectVector(intersect.normal, view_dir)
             reflectColor = self.castRay(intersect.point, reflect, intersect.sceneObject, recursion + 1)
             reflectColor = [reflectColor[2] / 255,
@@ -449,34 +447,7 @@ class render(object):
                             finalColor[2]]
 
             #print("- " + str(finalColor))
-        """
-        elif material.matType == TRANSPARENT:
-            outside = np.dot(direction, intersect.normal) < 0
-            #bias = 0.001 * intersect.normal
 
-            bias = [reflectColor[2] * 0.001,
-                    reflectColor[1] * 0.001,
-                    reflectColor[0] * 0.001]
-
-            kr = fresnel(intersect.normal, direction, material.ior)
-
-            reflect = self.reflectVector(intersect.normal, np.array(direction) * -1)
-            reflectOrig = np.add(intersect.point, bias) if outside else np.subtract(intersect.point, bias)
-            reflectColor = self.castRay(reflectOrig, reflect, None, recursion + 1)
-            reflectColor = np.array([reflectColor[2] / 255,
-                                     reflectColor[1] / 255,
-                                     reflectColor[0] / 255])
-
-            if kr < 1:
-                refract = refractVector(intersect.normal, direction, material.ior)
-                refractOrig = np.subtract(intersect.point, bias) if outside else np.add(intersect.point, bias)
-                refractColor = self.castRay(refractOrig, refract, None, recursion + 1)
-                refractColor = np.array([refractColor[2] / 255,
-                                         refractColor[1] / 255,
-                                         refractColor[0] / 255])
-
-            finalColor = reflectColor * kr + refractColor * (1 - kr) + (1 - shadow_intensity) * specColor
-        """
         #Aplicamos el color de objeto
         finalColor = myMultiply(finalColor, objectColor)
 
